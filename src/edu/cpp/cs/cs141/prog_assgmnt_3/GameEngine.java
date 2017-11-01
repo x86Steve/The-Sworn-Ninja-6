@@ -58,14 +58,16 @@ public class GameEngine
         this.powerUpSpawn = powerUpSpawn;
         this.rand = new Random();
         this.Player1 = new Player();
-        this.gameGrid = new Grid(enemySpawn, powerUpSpawn);
         this.UI = new TextUserInterface();
+
 
         this.PowerUps = new PowerUp[this.powerUpSpawn];
         initPowerUps(this.PowerUps);
 
         this.Ninja = new Enemy[enemySpawn];
         initNinjas(this.Ninja);
+
+        this.gameGrid = new Grid(this.Ninja, this.PowerUps);
     }
 
 

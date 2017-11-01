@@ -75,4 +75,8 @@ public class PowerUp
         return T;
     }
 
+    public Point getPoint ()
+    {
+        return position;
+    }
 }
