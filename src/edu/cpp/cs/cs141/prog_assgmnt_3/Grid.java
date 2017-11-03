@@ -1,4 +1,4 @@
-package edu.cpp.cs.cs141.prog_assgmnt_3;
+package testpack;
 
 import java.awt.*;
 
@@ -20,7 +20,7 @@ import java.awt.*;
  *  Dan @Dan L. - Djluoma@cpp.edu
  */
 
-public class Grid
+public class Grid implements java.io.Serializable
 {
     private Tile[][] grid;
     private Point Briefcase;

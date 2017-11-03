@@ -1,4 +1,4 @@
-package edu.cpp.cs.cs141.prog_assgmnt_3;
+package testpack;
 
 import java.awt.*;
 
@@ -20,7 +20,7 @@ import java.awt.*;
  * Dan @Dan L. - Djluoma@cpp.edu
  */
 
-public class Enemy
+public class Enemy implements java.io.Serializable
 {
     private Grid.entityType myType;
     private Point position;

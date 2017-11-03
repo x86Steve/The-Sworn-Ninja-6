@@ -1,6 +1,7 @@
-package edu.cpp.cs.cs141.prog_assgmnt_3;
+package testpack;
 
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * CS 141: Intro to Programming and Problem Solving
@@ -20,7 +21,7 @@ import java.awt.*;
  *  Dan @Dan L. - Djluoma@cpp.edu
  */
 
-public class Tile
+public class Tile implements Serializable
 {
     public enum entity { PLAYER, NINJA, POWERUP, ROOM, BRIEFCASE, UNKNOWN, EMPTY}
 

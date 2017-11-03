@@ -1,6 +1,7 @@
-package edu.cpp.cs.cs141.prog_assgmnt_3;
+package testpack;
 
 import java.awt.*;
+import java.io.*;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -22,13 +23,14 @@ import java.util.Scanner;
  *  Dan @Dan L. - Djluoma@cpp.edu
  */
 
-public class GameEngine
+public class GameEngine implements java.io.Serializable
 {
 
     public static Point[] invalidPoints;
     public static boolean debugMode;
     public static Scanner scanner;
     private static Random rand;
+
     private Enemy[] Ninja;
     private PowerUp[] PowerUps;
     private Player Player1;
@@ -98,7 +100,6 @@ public class GameEngine
 
             // Runs the game loop where the player is constantly asked for next actions
             gameLoop();
-
         }
     }
 
@@ -140,14 +141,66 @@ public class GameEngine
         }
     }
 
+    //** Saves all items into binary form in a file*/
     public void saveGame()
     {
-        //Saves all items into binary form in a file
+        String save;
+        try
+        {
+            TextUserInterface.printGameString("Enter name of save: ", false);
+            save = scanner.nextLine();
+
+            save += ".ninja";
+            FileOutputStream fileOut = new FileOutputStream(save);
+            ObjectOutputStream objOut = new ObjectOutputStream(fileOut);
+            objOut.writeObject(this.gameGrid);
+            objOut.writeObject(this.Ninja);
+            objOut.writeObject(this.Player1);
+            objOut.writeObject(this.PowerUps);
+            objOut.close();
+            fileOut.close();
+            TextUserInterface.printGameString("Game saved successfully to " + save, false);
+        }
+        catch (IOException e)
+        {
+            TextUserInterface.printGameString("Error saving the game!", false);
+            TextUserInterface.printGameString("Java Error: " + e,true);
+        }
     }
 
+    //Loads all items from a binary file and edits all variables inside game engine.
     public void loadGame()
     {
-        //Loads all items from a binary file and edits all variables inside game engine.
+        String load;
+
+        try
+        {
+            TextUserInterface.printGameString("Type the name of the game save ending with \".ninja\": " , false);
+            load = scanner.nextLine();
+
+            FileInputStream fileIn = new FileInputStream(load);
+            ObjectInputStream objIn = new ObjectInputStream(fileIn);
+
+            gameGrid = (Grid)objIn.readObject();
+            Ninja = (Enemy[])objIn.readObject();
+            Player1  = (Player)objIn.readObject();
+            PowerUps = (PowerUp[]) objIn.readObject();
+
+            objIn.close();
+            fileIn.close();
+
+        }
+        catch (IOException e)
+        {
+            TextUserInterface.printGameString("Error loading the game!", false);
+            TextUserInterface.printGameString("Java Error: " + e,true);
+        }
+        catch (ClassNotFoundException e)
+        {
+            TextUserInterface.printGameString("Error: Something went wrong with saving!", false);
+            TextUserInterface.printGameString("Java Error: " + e,true);
+        }
+
     }
 
     /**
@@ -217,3 +270,12 @@ public class GameEngine
     }
 
 }
+
+
+//TODO Output all variables.
+/*
+ int i = 42;
+ DataOutputStream os = new DataOutputStream(new FileOutputStream("C:\\binout.dat"));
+ os.writeInt(i);
+ os.close();
+ */

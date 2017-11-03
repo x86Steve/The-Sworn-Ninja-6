@@ -16,7 +16,9 @@
  *  Dan @Dan L. - Djluoma@cpp.edu
  */
 
-package edu.cpp.cs.cs141.prog_assgmnt_3;
+package testpack;
+
+import java.util.InputMismatchException;
 
 public class TextUserInterface
 {
@@ -108,14 +110,12 @@ public class TextUserInterface
 
             try
             {
-                userChoice = GameEngine.scanner.nextInt();
-            } catch (Exception e)
+                userChoice = Integer.parseInt(GameEngine.scanner.nextLine());
+            }
+            catch (InputMismatchException e)
             {
                 printGameString(incorretInput, false);
                 printGameString("Java Error: " + e, true);
-
-                // Clearing buffer, avoiding inf. loop. -Steve
-                GameEngine.scanner.nextLine();
                 userChoice = 0;
             }
 
@@ -131,6 +131,8 @@ public class TextUserInterface
                     return GameEngine.Action.SAVE;
                 case 5:
                     return GameEngine.Action.LOAD;
+                default:
+                    TextUserInterface.printGameString("Error: Enter a number within the menu!", false);
             }
 
         }
