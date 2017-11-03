@@ -38,15 +38,15 @@ public class Player
         this.invincibilityCount = 0;
         this.myType = Grid.entityType.PLAYER;
 
-        //Todo Grid array size ->[size - 1]<-[] = y
-        //Todo                 []->[0]<- = x;
-        this.position = new Point(0,8);
+        /** Starting point for player */
+        this.position = new Point(0, 8);
     }
 
     public boolean isPlayerAlive()
     {
         return this.hasBullet;
     }
+
     public boolean isHasBullet()
     {
         return this.hasBullet;
@@ -62,12 +62,17 @@ public class Player
         return this.invincibilityCount;
     }
 
-    public Grid.entityType getMyType ()
+    public Grid.entityType getMyType()
     {
         return myType;
     }
 
-    public void setPosition (Point position)
+    public Point getPosition()
+    {
+        return position;
+    }
+
+    public void setPosition(Point position)
     {
         this.position = position;
     }

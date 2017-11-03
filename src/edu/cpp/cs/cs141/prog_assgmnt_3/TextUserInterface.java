@@ -1,4 +1,3 @@
-
 /**
  * CS 141: Intro to Programming and Problem Solving
  * Professor: Edwin Rodriguez
@@ -28,12 +27,28 @@ public class TextUserInterface
     private final String incorretInput = "Yo, can we just, you know, follow directions and enter a number please," +
             " or whatever the correct input SHOULD be. These Java sanitation shiz are annoying" +
             " Thanks.";
+
     /**
      * Constructor
      */
     TextUserInterface()
     {
         printGameString("TextUserInterface constructed!", true);
+    }
+
+    /**
+     *
+     * @param s String to print, works just like System.out.println(), just shorter to type
+     * @param debugString True - Appends "DEBUG" on the string, else, prints normally. debugMode will be a global within GameEngine.
+     */
+    public static void printGameString(Object s, boolean debugString)
+    {
+        if (GameEngine.debugMode && debugString)
+            System.out.println("DEBUG: " + s.toString());
+        else if (debugString && !GameEngine.debugMode)
+            return;
+        else
+            System.out.println(s.toString());
     }
 
     /**
@@ -55,36 +70,22 @@ public class TextUserInterface
 
     /**
      * Takes grid and prints out it's current state.
-     * Todo Finish this. Little more thinking. Don't make the function too large.
      * @param grid This is the grid that was instantiated at game start. The grid class handles the states,
      *             this prints them out.
      */
     public void drawGrid(Grid grid)
     {
-        int size = grid.getGridString().length;
+        int size = grid.getGridTiles().length;
 
         for (int x = 0; x < size; x++)
         {
             if (x > 0)
-                // Newline
-                printGameString("",false);
+                printGameString("", false);
             for (int j = 0; j < size; j++)
-                System.out.print(grid.getGridString()[x][j]);
+                System.out.print(grid.getGridTiles()[x][j]);
         }
-
         // Newline
-        printGameString("",false);
-    }
-
-    //Todo create function that will take the iterative drawGrid and print extra text at correct intervals
-    private void printGameStats(int xIteration)
-    {
-        if (xIteration < 4)
-            return;
-
-        switch (xIteration)
-        {
-        }
+        printGameString("", false);
     }
 
     /**
@@ -108,18 +109,17 @@ public class TextUserInterface
             try
             {
                 userChoice = GameEngine.scanner.nextInt();
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
-                printGameString(incorretInput,false);
-                printGameString("Java Error: " + e,true);
+                printGameString(incorretInput, false);
+                printGameString("Java Error: " + e, true);
 
                 // Clearing buffer, avoiding inf. loop. -Steve
                 GameEngine.scanner.nextLine();
                 userChoice = 0;
             }
 
-            switch(userChoice)
+            switch (userChoice)
             {
                 case 1:
                     return GameEngine.Action.LOOK;
@@ -135,16 +135,6 @@ public class TextUserInterface
 
         }
         return GameEngine.Action.NULL;
-    }
-
-    /**
-     *
-     * @param s String to print, works just like System.out.println(), just shorter to type
-     * @param debugString True - Appends "DEBUG" on the string, else, prints normally. debugMode will be a global within GameEngine.
-     */
-    public static void printGameString(Object s, boolean debugString)
-    {
-        System.out.println(debugString && GameEngine.debugMode ? "DEBUG: " + s : s.toString());
     }
 
 }
