@@ -22,85 +22,83 @@ import java.awt.*;
 
 public class PowerUp implements java.io.Serializable
 {
-    private final int totalEnhancementTypes = 3;
-    private Grid.entityType myType;
-    private enhancementType T;
+	private final int totalEnhancementTypes = 3;
+	private enhancementType T;
 
-    private Point position;
+	private Point position;
 
-    PowerUp()
-    {
-        this.myType = Grid.entityType.POWERUP;
-        generateEnhancement();
-        this.position = new Point();
+	PowerUp ()
+	{
+		generateEnhancement();
+		this.position = new Point();
 
-        setPowerUpPosition();
-    }
+		setPowerUpPosition();
+	}
 
-    private void generateEnhancement()
-    {
-        int num = GameEngine.generateRandNum(this.totalEnhancementTypes);
+	private void generateEnhancement ()
+	{
+		int num = GameEngine.generateRandNum(this.totalEnhancementTypes);
 
-        switch (num)
-        {
-            case 1:
-            {
-                this.T = enhancementType.BULLET;
-                TextUserInterface.printGameString("Randomly Generated: BULLET PowerUp!", true);
-                break;
-            }
-            case 2:
-            {
-                this.T = enhancementType.RADAR;
-                TextUserInterface.printGameString("Randomly Generated: RADAR PowerUp!", true);
+		switch (num)
+		{
+			case 1:
+			{
+				this.T = enhancementType.BULLET;
+				TextUserInterface.printGameString("Randomly Generated: BULLET PowerUp!", true);
+				break;
+			}
+			case 2:
+			{
+				this.T = enhancementType.RADAR;
+				TextUserInterface.printGameString("Randomly Generated: RADAR PowerUp!", true);
 
-                break;
-            }
-            case 3:
-            {
-                this.T = enhancementType.INVINCIBILITY;
-                TextUserInterface.printGameString("Randomly Generated: Invincibility PowerUp!", true);
+				break;
+			}
+			case 3:
+			{
+				this.T = enhancementType.INVINCIBILITY;
+				TextUserInterface.printGameString("Randomly Generated: Invincibility PowerUp!", true);
 
-                break;
-            }
-            default:
-            {
-                TextUserInterface.printGameString("Error: Number generator in PowerUp.generateEnhancement() " +
-                        "generated a number out of scope!", true);
-            }
-        }
-    }
+				break;
+			}
+			default:
+			{
+				TextUserInterface.printGameString("Error: Number generator in PowerUp.generateEnhancement() " + "generated a number out of scope!", true);
+			}
+		}
+	}
 
-    private void setPowerUpPosition()
-    {
-        Point generated = new Point();
+	private void setPowerUpPosition ()
+	{
+		Point generated = new Point();
 
-        while (true)
-        {
-            // 0 - 8
-            generated.x = GameEngine.generateRandNum(9) - 1;
-            generated.y = GameEngine.generateRandNum(9) - 1;
+		while (true)
+		{
+			// 0 - 8
+			generated.x = GameEngine.generateRandNum(9) - 1;
+			generated.y = GameEngine.generateRandNum(9) - 1;
 
-            //** Powerups can be anywhere. */
-            if (GameEngine.isValidPoint(generated))
-                break;
-        }
+			//** Powerups can be anywhere. */
+			if (GameEngine.isValidPoint(generated) && !GameEngine.getPointsUsedByPowerUps().contains(generated))
+				break;
+		}
 
-        this.position = generated;
-    }
+		GameEngine.getPointsUsedByPowerUps().add(generated);
+		this.position = generated;
+	}
 
-    public enhancementType getEnhancement()
-    {
-        return T;
-    }
+	public enhancementType getEnhancement ()
+	{
+		return T;
+	}
 
-    public Point getPosition()
-    {
-        return position;
-    }
+	public Point getPosition ()
+	{
+		return position;
+	}
 
-    public enum enhancementType
-    {
-        BULLET, RADAR, INVINCIBILITY
-    }
+	public enum enhancementType
+	{
+		BULLET, RADAR, INVINCIBILITY
+	}
 }
