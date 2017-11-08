@@ -32,19 +32,3 @@ Finally, the player can quit the game at any time and save his progress. Later o
 
 Your task is to come up with a desgin for this game, given the specification above. You will use OO techniques for your design. You will be graded both on the functionality and the design of your program.
 
-This will be the welcome screen!
-[ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ]
-[ *** ][ RMM ][ *** ][ *** ][ RMM ][ *** ][ *** ][ RMM ][ *** ]
-[ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ]
-[ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ]
-[     ][ RMM ][ *** ][ *** ][ RMM ][ *** ][ *** ][ RMM ][ *** ]
-[     ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ]
-[     ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ][ *** ]
-[     ][ RMM ][ *** ][ *** ][ RMM ][ *** ][ *** ][ RMM ][ *** ]
-[ PLR ][     ][     ][     ][ PWR ][ *** ][ *** ][ *** ][ *** ]
-Please enter your Choice
-1. Look
-2. Move
-3. Shoot
-4. Save Game
-5. Load Game
