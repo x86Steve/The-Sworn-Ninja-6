@@ -160,6 +160,12 @@ public class TextUserInterface
 		}
 	}
 
+	public void printLostALife()
+	{
+		printGameString("You were stabbed! You've lost a life and are returned to the start!",false);
+	}
+
+
 	public String askPlayerDirection(Player player, Grid grid)
 	{
 		String input = "NULL";
@@ -172,7 +178,8 @@ public class TextUserInterface
 			printGameString("W. Up", false);
 
 			if (player.canMove("down", grid))
-			printGameString("S. Down", false);
+			printGameString(grid.getGridTile(player.getPosition().y + 1,player.getPosition().x).getTileType() == Tile.entity.ROOM ?
+					"S. Check Room ( Consumes Turn )" : "S. Down", false);
 
 			if (player.canMove("left", grid))
 			printGameString("A. Left", false);

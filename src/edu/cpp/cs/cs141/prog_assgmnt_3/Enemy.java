@@ -102,7 +102,7 @@ public class Enemy implements java.io.Serializable
 		this.noMoveThisTurn = false;
 		String[] directions = {"up","down","left","right"};
 
-		int randNumber = ( GameEngine.generateRandNum(3) - 1 );
+		int randNumber = ( GameEngine.generateRandNum(4) - 1 );
 
 		// Will be infinite loop if Ninja cannot move.
 		// Todo Possible strike system? Attempt all valid movements, if none work, ninja stays put for the turn?

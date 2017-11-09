@@ -2,6 +2,7 @@ package testpack;
 
 import java.awt.*;
 import java.io.*;
+import java.util.EnumMap;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -31,6 +32,7 @@ public class GameEngine implements java.io.Serializable
 	public static boolean debugMode;
 	public static Scanner scanner;
 	private static Random rand;
+	private int lineOfSight;
 
 	private static Vector<Point> pointsUsedByNinja;
 	private static Vector<Point> pointsUsedByPowerUps;
@@ -50,12 +52,13 @@ public class GameEngine implements java.io.Serializable
 	 * @param enemySpawn
 	 * @param powerUpSpawn
 	 */
-	GameEngine (boolean debugMode, int enemySpawn, int powerUpSpawn)
+	GameEngine (boolean debugMode, int enemySpawn, int powerUpSpawn, int lineOfSight)
 	{
 		GameEngine.debugMode = debugMode;
 		scanner = new Scanner(System.in);
 		invalidPoints = new Point[10];
 		setInvalidPoints();
+		this.lineOfSight = lineOfSight;
 
 		TextUserInterface.printGameString("DebugMode enabled!", true);
 
@@ -87,7 +90,7 @@ public class GameEngine implements java.io.Serializable
 	public static int generateRandNum (int bound)
 	{
 		int num = rand.nextInt(bound) + 1;
-		TextUserInterface.printGameString("Random Number Generated: " + num, true);
+		//TextUserInterface.printGameString("Random Number Generated: " + num, true);
 		return num;
 	}
 
@@ -107,11 +110,11 @@ public class GameEngine implements java.io.Serializable
 		// Display retarded text, maybe show game controls etc, haven't decided. - Steve
 		this.UI.welcomeScreen();
 
+		Player1.revealSquares(this.gameGrid, this.lineOfSight);
+
 		// Game plays until either briefcase is found, or player dies
 		while (!Player1.isHasBriefcase() && Player1.isPlayerAlive())
 		{
-			Player1.revealSquares(this.gameGrid, 4);
-
 			// Draws out the current grid, you know, like, with all the enemies hidden, etc.
 			UI.drawGrid(this.gameGrid);
 
@@ -130,6 +133,7 @@ public class GameEngine implements java.io.Serializable
 		{
 			actionNinjaAttemptKill();
 			ninjaMove();
+			Player1.revealSquares(this.gameGrid, this.lineOfSight);
 		}
 	}
 
@@ -181,7 +185,20 @@ public class GameEngine implements java.io.Serializable
 		for (Enemy A : Ninja)
 			if (A.getIsAlive())
 				if (A.killedPlayer(this.gameGrid))
-					this.Player1.setIsAlive(false);
+				{
+					if (this.Player1.getLives() > 1)
+					{
+						this.Player1.decrementLives();
+						UI.printLostALife();
+						this.gameGrid.getGridTile(this.Player1.getPosition().y,this.Player1.getPosition().x).setTileType(Tile.entity.EMPTY);
+
+						this.Player1.setPosition(new Point(0,8));
+						this.gameGrid.getGridTile(8,0).setTileType(Tile.entity.PLAYER);
+						Player1.revealSquares(this.gameGrid, this.lineOfSight);
+					}
+					else
+						this.Player1.setIsAlive(false);
+				}
 	}
 
 	void ninjaMove()
@@ -192,6 +209,8 @@ public class GameEngine implements java.io.Serializable
 		for (Enemy A : Ninja)
 		{
 			String movement = A.findValidMovement(this.gameGrid);
+
+			this.UI.printGameString("NINJA MOVES: " + movement, true);
 
 			// Skip movement if the ninja is dead, or failing the infinite loop check for movement
 			if (!A.getIsAlive() || A.getNoMoveThisTurn())
@@ -294,7 +313,6 @@ public class GameEngine implements java.io.Serializable
 				TextUserInterface.printGameString("Error: You must select a valid movement!", false);
 		}
 		this.gameGrid.getGridTile(Player1.getPosition().y,Player1.getPosition().x).setTileType(Tile.entity.PLAYER);
-		Player1.revealSquares(this.gameGrid, 4);
 	}
 
 	//** Saves all items into binary form in a file*/

@@ -24,6 +24,7 @@ import java.util.Vector;
 public class Player implements java.io.Serializable
 {
 
+	private int lives;
 	private boolean isAlive;
 	private boolean hasBullet;
 	private boolean hasBriefcase;
@@ -33,6 +34,7 @@ public class Player implements java.io.Serializable
 
 	Player ()
 	{
+		this.lives = 3;
 		this.isAlive = true;
 		this.hasBullet = true;
 		this.hasBriefcase = false;
@@ -82,6 +84,10 @@ public class Player implements java.io.Serializable
 	}
 
 	public void setHasBriefcase(boolean hasBriefcase) { this.hasBriefcase = hasBriefcase; }
+
+	public void decrementLives() { this.lives--; }
+
+	public int getLives() { return this.lives; }
 
 	public boolean canMove(String direction, Grid grid)
 	{
@@ -200,7 +206,8 @@ public class Player implements java.io.Serializable
 		int size = gameGrid.getGridTiles().length;
 		for (int y = 0; y < size; y++)
 			for (int x = 0; x < size; x++)
-				if (!tilesVisable.contains(new Point(x,y)) && gameGrid.getGridTile(y,x).getTileType() != Tile.entity.ROOM)
+				if (!tilesVisable.contains(new Point(x,y)) && gameGrid.getGridTile(y,x).getTileType() != Tile.entity.ROOM
+						&& gameGrid.getGridTile(y,x).getTileType() != Tile.entity.PLAYER)
 					gameGrid.getGridTile(y,x).setIsUnknownToPlayer(true);
 	}
 }

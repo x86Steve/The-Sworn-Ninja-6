@@ -44,19 +44,6 @@ public class Tile implements Serializable
 
 	Tile (Point location)
 	{
-		//** Although this will set the tiles to "Blank," as we fill tiles, we will be able to see the true entities. */
-		if (GameEngine.debugMode)
-		{
-			this.isUnknownToPlayer = false;
-			this.tileStringRepresentation = Empty;
-		}
-		else
-		{
-			this.isUnknownToPlayer = true;
-			this.tileStringRepresentation = this.Unknown;
-		}
-
-
 		this.isPlayer = false;
 		this.isBriefcase = false;
 		this.isNinja = false;
@@ -153,6 +140,7 @@ public class Tile implements Serializable
 				tileType = entity.NINJA;
 				this.isNinja = true;
 				this.isEmpty = false;
+				this.isPowerUp = false;
 				this.isUnknownToPlayer = true;
 				this.tileStringRepresentation = this.Ninja;
 				break;
@@ -164,7 +152,7 @@ public class Tile implements Serializable
 				this.isPowerUp = false;
 				this.isPlayer = true;
 				tileType = entity.PLAYER;
-				this.isUnknownToPlayer = true;
+				this.isUnknownToPlayer = false;
 				this.tileStringRepresentation = this.Player;
 				break;
 			}
@@ -194,6 +182,8 @@ public class Tile implements Serializable
 				this.isEmpty = true;
 				this.isPlayer = false;
 				this.isNinja = false;
+				this.isPowerUp = false;
+				this.isUnknownToPlayer = true;
 				this.tileStringRepresentation = this.Empty;
 				break;
 			}
@@ -225,12 +215,6 @@ public class Tile implements Serializable
 		// Game NOT in debug mode
 		if (!GameEngine.debugMode)
 		{
-			if (this.isPlayer)
-				return this.Player;
-
-			if (this.isPowerUp && this.isNinja)
-				return this.Ninja;
-
 			if (this.isUnknownToPlayer)
 				return this.Unknown;
 
