@@ -145,6 +145,21 @@ public class TextUserInterface
 		return GameEngine.Action.NULL;
 	}
 
+	public boolean textCheckRoom(Grid gameGrid, Point position)
+	{
+		if (gameGrid.getGridTile(position.y,position.x).isBriefcase())
+		{
+			printGameString("You win! You found the briefcase!", false);
+			return true;
+		}
+
+		else
+		{
+			printGameString("Unfortunate. No briefcase here",false);
+			return false;
+		}
+	}
+
 	public String askPlayerDirection(Player player, Grid grid)
 	{
 		String input = "NULL";

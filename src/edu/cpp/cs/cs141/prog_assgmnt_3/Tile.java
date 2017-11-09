@@ -184,6 +184,7 @@ public class Tile implements Serializable
 				this.isRoomEnterable = false;
 				this.isUnknownToPlayer = false;
 				this.isEmpty = false;
+				this.isBriefcase = false;
 				this.tileStringRepresentation = this.Room;
 				break;
 			}
@@ -227,6 +228,9 @@ public class Tile implements Serializable
 			if (this.isPlayer)
 				return this.Player;
 
+			if (this.isPowerUp && this.isNinja)
+				return this.Ninja;
+
 			if (this.isUnknownToPlayer)
 				return this.Unknown;
 
@@ -235,6 +239,12 @@ public class Tile implements Serializable
 
 		if (this.isEmpty)
 			return this.Empty;
+
+		if (this.isPowerUp && this.isNinja)
+			return this.Ninja;
+
+		if (this.isRoom && this.isBriefcase)
+			return this.Briefcase;
 
 		return this.tileStringRepresentation;
 	}
@@ -247,5 +257,10 @@ public class Tile implements Serializable
 	public entity getTileType ()
 	{
 		return tileType;
+	}
+
+	public void setBriefcase(boolean isBriefcase)
+	{
+		this.isBriefcase = isBriefcase;
 	}
 }

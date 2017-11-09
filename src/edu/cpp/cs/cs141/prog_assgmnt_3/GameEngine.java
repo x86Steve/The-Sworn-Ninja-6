@@ -124,6 +124,15 @@ public class GameEngine implements java.io.Serializable
 		UI.drawGrid(this.gameGrid);
 	}
 
+	private void enemyAction()
+	{
+		if (!Player1.isHasBriefcase())
+		{
+			actionNinjaAttemptKill();
+			ninjaMove();
+		}
+	}
+
 	private void gameLoop ()
 	{
 		//Grab user choice, and execute that command.
@@ -132,20 +141,17 @@ public class GameEngine implements java.io.Serializable
 			case MOVEMENT:
 			{
 				movePlayer(UI.askPlayerDirection(Player1, gameGrid));
-				actionNinjaAttemptKill();
-				ninjaMove();
+				enemyAction();
 				break;
 			}
 			case LOOK:
 			{
-				actionNinjaAttemptKill();
-				ninjaMove();
+				enemyAction();
 				break;
 			}
 			case SHOOT:
 			{
-				actionNinjaAttemptKill();
-				ninjaMove();
+				enemyAction();
 				break;
 			}
 			case SAVE:
@@ -256,6 +262,17 @@ public class GameEngine implements java.io.Serializable
 
 	private void  movePlayer(String where)
 	{
+		if (where.toLowerCase().equals("s"))
+		{
+			if (this.gameGrid.getGridTile(this.Player1.getPosition().y + 1,this.Player1.getPosition().x).getTileType() == Tile.entity.ROOM)
+			{
+				if(UI.textCheckRoom(this.gameGrid, new Point(this.Player1.getPosition().x, this.Player1.getPosition().y + 1)))
+					this.Player1.setHasBriefcase(true);
+				return;
+			}
+		}
+
+
 		this.gameGrid.getGridTile(Player1.getPosition().y,Player1.getPosition().x).setTileType(Tile.entity.EMPTY);
 		this.gameGrid.getGridTile(Player1.getPosition().y,Player1.getPosition().x).setIsUnknownToPlayer(false);
 
@@ -336,7 +353,7 @@ public class GameEngine implements java.io.Serializable
 		}
 		catch (ClassNotFoundException e)
 		{
-			TextUserInterface.printGameString("Error: Something went wrong with saving!", false);
+			TextUserInterface.printGameString("Error: Something went wrong with loading!", false);
 			TextUserInterface.printGameString("Java Error: " + e, true);
 		}
 

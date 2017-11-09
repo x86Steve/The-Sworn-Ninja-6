@@ -22,7 +22,7 @@ public class Driver
 {
 	public static void main (String args[])
 	{
-		GameEngine GE = new GameEngine(false, 5, 5);
+		GameEngine GE = new GameEngine(true, 4, 0);
 		// Test Code Below
 
 		GE.start();

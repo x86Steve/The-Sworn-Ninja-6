@@ -33,6 +33,8 @@ public class Grid implements java.io.Serializable
 		TextUserInterface.printGameString("Grid constructed with Enemy Count: " + Ninja.length + " PowerUpCount: " + PowerUps.length, true);
 		this.grid = new Tile[9][9];
 		this.initGrid(Ninja, PowerUps, Player1);
+
+		this.generateBriefcaseLocation();
 	}
 
 	private void insertPlayer (Point point)
@@ -94,4 +96,24 @@ public class Grid implements java.io.Serializable
 	{
 		return this.grid[y][x];
 	}
+
+	private void generateBriefcaseLocation()
+	{
+		Point roomLocations[] = new Point[9];
+
+		roomLocations[0] = new Point(1,1);
+		roomLocations[1] = new Point(1,4);
+		roomLocations[2] = new Point(1,7);
+		roomLocations[3] = new Point(4,1);
+		roomLocations[4] = new Point(4,4);
+		roomLocations[5] = new Point(4,7);
+		roomLocations[6] = new Point(7,1);
+		roomLocations[7] = new Point(7,4);
+		roomLocations[8] = new Point(7,7);
+
+		int randomNum = GameEngine.generateRandNum(9) - 1;
+
+		this.getGridTile(roomLocations[randomNum].y, roomLocations[randomNum].x).setBriefcase(true);
+	}
+
 }

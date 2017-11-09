@@ -81,6 +81,8 @@ public class Player implements java.io.Serializable
 		this.position = position;
 	}
 
+	public void setHasBriefcase(boolean hasBriefcase) { this.hasBriefcase = hasBriefcase; }
+
 	public boolean canMove(String direction, Grid grid)
 	{
 		switch (direction.toLowerCase())
@@ -97,7 +99,8 @@ public class Player implements java.io.Serializable
 			case "down":
 			{
 				if (this.position.y + 1 <= 8)
-					if (grid.getGridTile(this.position.y + 1,this.position.x).getTileType() == Tile.entity.EMPTY)
+					if (grid.getGridTile(this.position.y + 1,this.position.x).getTileType() == Tile.entity.EMPTY ||
+							grid.getGridTile(this.position.y + 1,this.position.x).getTileType() == Tile.entity.ROOM)
 						return true;
 				return false;
 			}
@@ -126,6 +129,9 @@ public class Player implements java.io.Serializable
 
 	public void revealSquares(Grid gameGrid, int lineOfSight)
 	{
+		if (GameEngine.debugMode)
+			return;
+
 		// Save all tiles that the player can see, so that we can set other tiles as unknown, as he loses sight.
 		tilesVisable.clear();
 
