@@ -47,7 +47,11 @@ public class Grid implements java.io.Serializable
 		int size = PowerUps.length;
 
 		for (int x = 0; x < size; x++)
+		{
+			this.grid[PowerUps[x].getPosition().y][PowerUps[x].getPosition().x].setPowerUp(PowerUps[x]);
 			this.grid[PowerUps[x].getPosition().y][PowerUps[x].getPosition().x].setTileType(Tile.entity.POWERUP);
+		}
+
 	}
 
 	private void insertNinja (Enemy[] Ninja)
@@ -97,23 +101,32 @@ public class Grid implements java.io.Serializable
 		return this.grid[y][x];
 	}
 
-	private void generateBriefcaseLocation()
+	private void generateBriefcaseLocation ()
 	{
 		Point roomLocations[] = new Point[9];
 
-		roomLocations[0] = new Point(1,1);
-		roomLocations[1] = new Point(1,4);
-		roomLocations[2] = new Point(1,7);
-		roomLocations[3] = new Point(4,1);
-		roomLocations[4] = new Point(4,4);
-		roomLocations[5] = new Point(4,7);
-		roomLocations[6] = new Point(7,1);
-		roomLocations[7] = new Point(7,4);
-		roomLocations[8] = new Point(7,7);
+		roomLocations[0] = new Point(1, 1);
+		roomLocations[1] = new Point(1, 4);
+		roomLocations[2] = new Point(1, 7);
+		roomLocations[3] = new Point(4, 1);
+		roomLocations[4] = new Point(4, 4);
+		roomLocations[5] = new Point(4, 7);
+		roomLocations[6] = new Point(7, 1);
+		roomLocations[7] = new Point(7, 4);
+		roomLocations[8] = new Point(7, 7);
 
 		int randomNum = GameEngine.generateRandNum(9) - 1;
 
 		this.getGridTile(roomLocations[randomNum].y, roomLocations[randomNum].x).setBriefcase(true);
+	}
+
+	public void revealBriefcase ()
+	{
+		int size = this.grid.length;
+		for (int y = 0; y < size; y++)
+			for (int x = 0; x < size; x++)
+				if (this.getGridTile(y, x).isBriefcase())
+					this.getGridTile(y, x).setIsUnknownToPlayer(false);
 	}
 
 }

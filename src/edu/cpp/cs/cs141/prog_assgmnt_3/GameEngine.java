@@ -2,7 +2,6 @@ package testpack;
 
 import java.awt.*;
 import java.io.*;
-import java.util.EnumMap;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
@@ -32,10 +31,9 @@ public class GameEngine implements java.io.Serializable
 	public static boolean debugMode;
 	public static Scanner scanner;
 	private static Random rand;
-	private int lineOfSight;
-
 	private static Vector<Point> pointsUsedByNinja;
 	private static Vector<Point> pointsUsedByPowerUps;
+	private int lineOfSight;
 	private Enemy[] Ninja;
 	private PowerUp[] PowerUps;
 	private Player Player1;
@@ -102,6 +100,16 @@ public class GameEngine implements java.io.Serializable
 		return true;
 	}
 
+	public static Vector<Point> getPointsUsedByNinja ()
+	{
+		return pointsUsedByNinja;
+	}
+
+	public static Vector<Point> getPointsUsedByPowerUps ()
+	{
+		return pointsUsedByPowerUps;
+	}
+
 	/**
 	 * Main routine that starts the game.
 	 */
@@ -116,18 +124,18 @@ public class GameEngine implements java.io.Serializable
 		while (!Player1.isHasBriefcase() && Player1.isPlayerAlive())
 		{
 			// Draws out the current grid, you know, like, with all the enemies hidden, etc.
-			UI.drawGrid(this.gameGrid);
+			UI.drawGrid(this.gameGrid, this.Player1);
 
 			// Runs the game loop where the player is constantly asked for next actions
 			gameLoop();
 		}
 
-		//GAMEOVER
+		//GAMEOVER - Interesting little effect. Shows everything on map, kinda like minesweeper after winning / losing
 		GameEngine.debugMode = true;
-		UI.drawGrid(this.gameGrid);
+		UI.drawGrid(this.gameGrid, this.Player1);
 	}
 
-	private void enemyAction()
+	private void enemyAction ()
 	{
 		if (!Player1.isHasBriefcase())
 		{
@@ -155,6 +163,16 @@ public class GameEngine implements java.io.Serializable
 			}
 			case SHOOT:
 			{
+				if (!Player1.isHasBullet())
+				{
+					UI.printOutOfAmmo();
+					break;
+				}
+				Point temp = Player1.shoot(this.gameGrid, this.UI);
+
+				if (temp != null)
+					ninjaDeath(temp);
+
 				enemyAction();
 				break;
 			}
@@ -179,21 +197,37 @@ public class GameEngine implements java.io.Serializable
 
 	}
 
-	private void actionNinjaAttemptKill()
+	private void ninjaDeath (Point position)
+	{
+		for (Enemy A : Ninja)
+			if (A.getPosition().equals(position))
+			{
+				A.killSelf();
+				break;
+			}
+	}
+
+	private void actionNinjaAttemptKill ()
 	{
 		// Attn: All Ninja, check surroundings and slaughter anyone within proximity.
 		for (Enemy A : Ninja)
 			if (A.getIsAlive())
 				if (A.killedPlayer(this.gameGrid))
 				{
+					if (this.Player1.getInvincibilityCount() > 0)
+					{
+						this.Player1.decrementInvincibility();
+						UI.printLostInvincibility();
+						continue;
+					}
 					if (this.Player1.getLives() > 1)
 					{
 						this.Player1.decrementLives();
 						UI.printLostALife();
-						this.gameGrid.getGridTile(this.Player1.getPosition().y,this.Player1.getPosition().x).setTileType(Tile.entity.EMPTY);
+						this.gameGrid.getGridTile(this.Player1.getPosition().y, this.Player1.getPosition().x).setTileType(Tile.entity.EMPTY);
 
-						this.Player1.setPosition(new Point(0,8));
-						this.gameGrid.getGridTile(8,0).setTileType(Tile.entity.PLAYER);
+						this.Player1.setPosition(new Point(0, 8));
+						this.gameGrid.getGridTile(8, 0).setTileType(Tile.entity.PLAYER);
 						Player1.revealSquares(this.gameGrid, this.lineOfSight);
 					}
 					else
@@ -201,7 +235,7 @@ public class GameEngine implements java.io.Serializable
 				}
 	}
 
-	void ninjaMove()
+	void ninjaMove ()
 	{
 		if (!this.Player1.isPlayerAlive())
 			return;
@@ -218,20 +252,20 @@ public class GameEngine implements java.io.Serializable
 
 			// Current tile, if it was a powerup, just remove the fact a ninja was hiding on it, so that that grid displays PWR still.
 			// Else the only other option is it being empty
-			if (gameGrid.getGridTile(A.getPosition().y,A.getPosition().x).getTileType() == Tile.entity.POWERUP)
-				gameGrid.getGridTile(A.getPosition().y,A.getPosition().x).setIsNinja(false);
+			if (gameGrid.getGridTile(A.getPosition().y, A.getPosition().x).getTileType() == Tile.entity.POWERUP)
+				gameGrid.getGridTile(A.getPosition().y, A.getPosition().x).setIsNinja(false);
 			else
-				gameGrid.getGridTile(A.getPosition().y,A.getPosition().x).setTileType(Tile.entity.EMPTY);
+				gameGrid.getGridTile(A.getPosition().y, A.getPosition().x).setTileType(Tile.entity.EMPTY);
 
 			switch (movement)
 			{
 				case "up":
 				{
 					// If the target tile is a powerup, add the fact that a ninja is hiding under it
-					if (gameGrid.getGridTile(A.getPosition().y - 1,A.getPosition().x).getTileType() == Tile.entity.POWERUP)
-						gameGrid.getGridTile(A.getPosition().y - 1,A.getPosition().x).setIsNinja(true);
+					if (gameGrid.getGridTile(A.getPosition().y - 1, A.getPosition().x).getTileType() == Tile.entity.POWERUP)
+						gameGrid.getGridTile(A.getPosition().y - 1, A.getPosition().x).setIsNinja(true);
 					else
-						gameGrid.getGridTile(A.getPosition().y - 1,A.getPosition().x).setTileType(Tile.entity.NINJA);
+						gameGrid.getGridTile(A.getPosition().y - 1, A.getPosition().x).setTileType(Tile.entity.NINJA);
 
 					// Update ninja new position
 					A.setPosition(new Point(A.getPosition().x, A.getPosition().y - 1));
@@ -240,10 +274,10 @@ public class GameEngine implements java.io.Serializable
 				case "down":
 				{
 					// If the target tile is a powerup, add the fact that a ninja is hiding under it
-					if (gameGrid.getGridTile(A.getPosition().y + 1,A.getPosition().x).getTileType() == Tile.entity.POWERUP)
-						gameGrid.getGridTile(A.getPosition().y + 1,A.getPosition().x).setIsNinja(true);
+					if (gameGrid.getGridTile(A.getPosition().y + 1, A.getPosition().x).getTileType() == Tile.entity.POWERUP)
+						gameGrid.getGridTile(A.getPosition().y + 1, A.getPosition().x).setIsNinja(true);
 					else
-						gameGrid.getGridTile(A.getPosition().y + 1,A.getPosition().x).setTileType(Tile.entity.NINJA);
+						gameGrid.getGridTile(A.getPosition().y + 1, A.getPosition().x).setTileType(Tile.entity.NINJA);
 
 					// Update ninja new position
 					A.setPosition(new Point(A.getPosition().x, A.getPosition().y + 1));
@@ -252,10 +286,10 @@ public class GameEngine implements java.io.Serializable
 				case "left":
 				{
 					// If the target tile is a powerup, add the fact that a ninja is hiding under it
-					if (gameGrid.getGridTile(A.getPosition().y,A.getPosition().x - 1).getTileType() == Tile.entity.POWERUP)
-						gameGrid.getGridTile(A.getPosition().y,A.getPosition().x - 1).setIsNinja(true);
+					if (gameGrid.getGridTile(A.getPosition().y, A.getPosition().x - 1).getTileType() == Tile.entity.POWERUP)
+						gameGrid.getGridTile(A.getPosition().y, A.getPosition().x - 1).setIsNinja(true);
 					else
-						gameGrid.getGridTile(A.getPosition().y,A.getPosition().x - 1).setTileType(Tile.entity.NINJA);
+						gameGrid.getGridTile(A.getPosition().y, A.getPosition().x - 1).setTileType(Tile.entity.NINJA);
 
 					// Update ninja new position
 					A.setPosition(new Point(A.getPosition().x - 1, A.getPosition().y));
@@ -264,10 +298,10 @@ public class GameEngine implements java.io.Serializable
 				case "right":
 				{
 					// If the target tile is a powerup, add the fact that a ninja is hiding under it
-					if (gameGrid.getGridTile(A.getPosition().y,A.getPosition().x + 1).getTileType() == Tile.entity.POWERUP)
-						gameGrid.getGridTile(A.getPosition().y,A.getPosition().x + 1).setIsNinja(true);
+					if (gameGrid.getGridTile(A.getPosition().y, A.getPosition().x + 1).getTileType() == Tile.entity.POWERUP)
+						gameGrid.getGridTile(A.getPosition().y, A.getPosition().x + 1).setIsNinja(true);
 					else
-						gameGrid.getGridTile(A.getPosition().y,A.getPosition().x + 1).setTileType(Tile.entity.NINJA);
+						gameGrid.getGridTile(A.getPosition().y, A.getPosition().x + 1).setTileType(Tile.entity.NINJA);
 
 					// Update ninja new position
 					A.setPosition(new Point(A.getPosition().x + 1, A.getPosition().y));
@@ -279,40 +313,48 @@ public class GameEngine implements java.io.Serializable
 		}
 	}
 
-	private void  movePlayer(String where)
+	private void movePlayer (String where)
 	{
 		if (where.toLowerCase().equals("s"))
 		{
-			if (this.gameGrid.getGridTile(this.Player1.getPosition().y + 1,this.Player1.getPosition().x).getTileType() == Tile.entity.ROOM)
+			if (this.gameGrid.getGridTile(this.Player1.getPosition().y + 1, this.Player1.getPosition().x).getTileType() == Tile.entity.ROOM)
 			{
-				if(UI.textCheckRoom(this.gameGrid, new Point(this.Player1.getPosition().x, this.Player1.getPosition().y + 1)))
+				if (UI.textCheckRoom(this.gameGrid, new Point(this.Player1.getPosition().x, this.Player1.getPosition().y + 1)))
 					this.Player1.setHasBriefcase(true);
 				return;
 			}
 		}
 
-
-		this.gameGrid.getGridTile(Player1.getPosition().y,Player1.getPosition().x).setTileType(Tile.entity.EMPTY);
-		this.gameGrid.getGridTile(Player1.getPosition().y,Player1.getPosition().x).setIsUnknownToPlayer(false);
+		this.gameGrid.getGridTile(Player1.getPosition().y, Player1.getPosition().x).setTileType(Tile.entity.EMPTY);
+		this.gameGrid.getGridTile(Player1.getPosition().y, Player1.getPosition().x).setIsUnknownToPlayer(false);
 
 		switch (where.toLowerCase())
 		{
 			case "w":
-				this.Player1.setPosition(new Point(this.Player1.getPosition().x,this.Player1.getPosition().y - 1));
+				this.Player1.setPosition(new Point(this.Player1.getPosition().x, this.Player1.getPosition().y - 1));
 				break;
 			case "s":
-				this.Player1.setPosition(new Point(this.Player1.getPosition().x,this.Player1.getPosition().y + 1));
+				this.Player1.setPosition(new Point(this.Player1.getPosition().x, this.Player1.getPosition().y + 1));
 				break;
 			case "a":
-				this.Player1.setPosition(new Point(this.Player1.getPosition().x - 1,this.Player1.getPosition().y));
+				this.Player1.setPosition(new Point(this.Player1.getPosition().x - 1, this.Player1.getPosition().y));
 				break;
 			case "d":
-				this.Player1.setPosition(new Point(this.Player1.getPosition().x + 1,this.Player1.getPosition().y));
+				this.Player1.setPosition(new Point(this.Player1.getPosition().x + 1, this.Player1.getPosition().y));
 				break;
 			default:
 				TextUserInterface.printGameString("Error: You must select a valid movement!", false);
 		}
-		this.gameGrid.getGridTile(Player1.getPosition().y,Player1.getPosition().x).setTileType(Tile.entity.PLAYER);
+
+		if (this.gameGrid.getGridTile(this.Player1.getPosition().y, this.Player1.getPosition().x).getTileType() == Tile.entity.POWERUP)
+		{
+			this.gameGrid.getGridTile(this.Player1.getPosition().y, this.Player1.getPosition().x).getPowerUp().usePowerUp(this.Player1, this.UI);
+
+			if (!this.Player1.isHasRadar())
+				this.gameGrid.revealBriefcase();
+		}
+
+		this.gameGrid.getGridTile(Player1.getPosition().y, Player1.getPosition().x).setTileType(Tile.entity.PLAYER);
 	}
 
 	//** Saves all items into binary form in a file*/
@@ -433,12 +475,6 @@ public class GameEngine implements java.io.Serializable
 	{
 		MOVEMENT, SHOOT, LOOK, SAVE, LOAD, NULL
 	}
-
-	public static Vector<Point> getPointsUsedByNinja()
-	{
-		return pointsUsedByNinja;
-	}
-	public static Vector<Point> getPointsUsedByPowerUps() { return pointsUsedByPowerUps; }
 
 }
 

@@ -97,6 +97,47 @@ public class PowerUp implements java.io.Serializable
 		return position;
 	}
 
+	public void usePowerUp (Player player, TextUserInterface UI)
+	{
+		switch (this.T)
+		{
+			case INVINCIBILITY:
+			{
+				player.useInvincibilityPowerUp();
+				UI.printUsedInvincibilityUp();
+				break;
+			}
+			case BULLET:
+			{
+				player.useBulletPowerUp();
+				UI.printUsedBulletPowerUp();
+				break;
+			}
+			case RADAR:
+			{
+				player.useRadarPowerUp();
+				UI.printUsedRadarPowerUp();
+				break;
+			}
+		}
+	}
+
+	@Override
+	public String toString ()
+	{
+		switch (this.T)
+		{
+			case RADAR:
+				return "[ RAD ]";
+			case BULLET:
+				return "[ BLT ]";
+			case INVINCIBILITY:
+				return "[ INV ]";
+		}
+
+		return "NULL";
+	}
+
 	public enum enhancementType
 	{
 		BULLET, RADAR, INVINCIBILITY

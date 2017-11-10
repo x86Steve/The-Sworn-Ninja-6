@@ -35,59 +35,55 @@ public class Enemy implements java.io.Serializable
 		setNinjaPosition();
 	}
 
-	public boolean killedPlayer(Grid gameGrid)
+	public boolean killedPlayer (Grid gameGrid)
 	{
 		if (this.position.y + 1 <= 8)
-			if (gameGrid.getGridTile(position.y + 1,position.x).getTileType() == Tile.entity.PLAYER)
+			if (gameGrid.getGridTile(position.y + 1, position.x).getTileType() == Tile.entity.PLAYER)
 				return true;
 
 		if (position.y - 1 >= 0)
-			if (gameGrid.getGridTile(position.y - 1,position.x).getTileType() == Tile.entity.PLAYER)
+			if (gameGrid.getGridTile(position.y - 1, position.x).getTileType() == Tile.entity.PLAYER)
 				return true;
 
 		if (position.x + 1 <= 8)
-			if (gameGrid.getGridTile(position.y,position.x + 1).getTileType() == Tile.entity.PLAYER)
+			if (gameGrid.getGridTile(position.y, position.x + 1).getTileType() == Tile.entity.PLAYER)
 				return true;
 
 		if (position.x - 1 >= 0)
-			if (gameGrid.getGridTile(position.y,position.x - 1).getTileType() == Tile.entity.PLAYER)
+			if (gameGrid.getGridTile(position.y, position.x - 1).getTileType() == Tile.entity.PLAYER)
 				return true;
 		return false;
 	}
 
-	public boolean canMoveDirection(String direction, Grid gameGrid)
+	public boolean canMoveDirection (String direction, Grid gameGrid)
 	{
 		switch (direction.toLowerCase())
 		{
 			case "up":
 			{
 				if (this.position.y - 1 >= 0)
-					if (gameGrid.getGridTile(this.position.y - 1,this.position.x).getTileType() != Tile.entity.ROOM &&
-							gameGrid.getGridTile(this.position.y - 1,this.position.x).getTileType() != Tile.entity.NINJA)
+					if (gameGrid.getGridTile(this.position.y - 1, this.position.x).getTileType() != Tile.entity.ROOM && gameGrid.getGridTile(this.position.y - 1, this.position.x).getTileType() != Tile.entity.NINJA && gameGrid.getGridTile(this.position.y - 1, this.position.x).getTileType() != Tile.entity.PLAYER)
 						return true;
 				break;
 			}
 			case "down":
 			{
 				if (this.position.y + 1 <= 8)
-					if (gameGrid.getGridTile(this.position.y + 1,this.position.x).getTileType() != Tile.entity.ROOM &&
-							gameGrid.getGridTile(this.position.y + 1,this.position.x).getTileType() != Tile.entity.NINJA)
+					if (gameGrid.getGridTile(this.position.y + 1, this.position.x).getTileType() != Tile.entity.ROOM && gameGrid.getGridTile(this.position.y + 1, this.position.x).getTileType() != Tile.entity.NINJA && gameGrid.getGridTile(this.position.y + 1, this.position.x).getTileType() != Tile.entity.PLAYER)
 						return true;
 				break;
 			}
 			case "left":
 			{
 				if (this.position.x - 1 >= 0)
-					if (gameGrid.getGridTile(this.position.y ,this.position.x - 1).getTileType() != Tile.entity.ROOM &&
-							gameGrid.getGridTile(this.position.y,this.position.x - 1).getTileType() != Tile.entity.NINJA)
+					if (gameGrid.getGridTile(this.position.y, this.position.x - 1).getTileType() != Tile.entity.ROOM && gameGrid.getGridTile(this.position.y, this.position.x - 1).getTileType() != Tile.entity.NINJA && gameGrid.getGridTile(this.position.y, this.position.x - 1).getTileType() != Tile.entity.PLAYER)
 						return true;
 				break;
 			}
 			case "right":
 			{
 				if (this.position.x + 1 <= 8)
-					if (gameGrid.getGridTile(this.position.y ,this.position.x + 1).getTileType() != Tile.entity.ROOM &&
-							gameGrid.getGridTile(this.position.y ,this.position.x + 1).getTileType() != Tile.entity.NINJA)
+					if (gameGrid.getGridTile(this.position.y, this.position.x + 1).getTileType() != Tile.entity.ROOM && gameGrid.getGridTile(this.position.y, this.position.x + 1).getTileType() != Tile.entity.NINJA && gameGrid.getGridTile(this.position.y, this.position.x + 1).getTileType() != Tile.entity.PLAYER)
 						return true;
 				break;
 			}
@@ -96,17 +92,17 @@ public class Enemy implements java.io.Serializable
 		return false;
 	}
 
-	public String findValidMovement(Grid gameGrid)
+	public String findValidMovement (Grid gameGrid)
 	{
 		int lazyStrikeSystem = 0;
 		this.noMoveThisTurn = false;
-		String[] directions = {"up","down","left","right"};
+		String[] directions = {"up", "down", "left", "right"};
 
-		int randNumber = ( GameEngine.generateRandNum(4) - 1 );
+		int randNumber = (GameEngine.generateRandNum(4) - 1);
 
 		// Will be infinite loop if Ninja cannot move.
 		// Todo Possible strike system? Attempt all valid movements, if none work, ninja stays put for the turn?
-		while(!this.canMoveDirection(directions[randNumber],gameGrid) && lazyStrikeSystem <= 3)
+		while (!this.canMoveDirection(directions[randNumber], gameGrid) && lazyStrikeSystem <= 3)
 		{
 			randNumber = GameEngine.generateRandNum(3) - 1;
 			lazyStrikeSystem++;
@@ -158,6 +154,11 @@ public class Enemy implements java.io.Serializable
 		}
 	}
 
+	public void killSelf ()
+	{
+		this.isAlive = false;
+	}
+
 	public boolean getIsAlive ()
 	{
 		return this.isAlive;
@@ -173,7 +174,7 @@ public class Enemy implements java.io.Serializable
 		this.position = position;
 	}
 
-	public boolean getNoMoveThisTurn()
+	public boolean getNoMoveThisTurn ()
 	{
 		return this.noMoveThisTurn;
 	}
