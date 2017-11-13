@@ -45,7 +45,11 @@ public class Tile implements Serializable
 	private boolean isRoomEnterable;
 	private Point position;
 	private String tileStringRepresentation;
-
+	
+	/**
+	 * Empty tile construction
+	 * @param location Point object with an x and y postion
+	 */
 	Tile (Point location)
 	{
 		this.isPlayer = false;
@@ -61,6 +65,11 @@ public class Tile implements Serializable
 		this.position = location;
 	}
 
+	/**
+	 * Constructor for a tile that contains a power up
+	 * @param location Point object with and x and y position
+	 * @param powerUp PowerUp object that the tile will contain
+	 */
 	Tile (Point location, PowerUp powerUp)
 	{
 		this.isPlayer = false;
@@ -77,11 +86,19 @@ public class Tile implements Serializable
 		this.powerUp = powerUp;
 	}
 
+	/**
+	 * Returns the enum type for the tile
+	 * @return 'entity' enum classifying the tile.
+	 */
 	public entity getTileType ()
 	{
 		return tileType;
 	}
-
+	
+	/**
+	 * Sets the tile type
+	 * @param Type entity enum
+	 */
 	public void setTileType (entity Type)
 	{
 		this.tileType = Type;
@@ -168,67 +185,115 @@ public class Tile implements Serializable
 			}
 		}
 	}
-
+	
+	/** 
+	 * Returns the point of the tile.
+	 */
 	public Point getPoint ()
 	{
 		return position;
 	}
-
+	
+	/**
+	 * Returns whether or not the tile contains a briefcase.
+	 */
 	public boolean isBriefcase ()
 	{
 		return isBriefcase;
 	}
-
+	
+	/**
+	 * Sets the tile to contain a briefcase.
+	 * @baram isBriefcase whether or not the tile will contain a briefcase.
+	 */
 	public void setBriefcase (boolean isBriefcase)
 	{
 		this.isBriefcase = isBriefcase;
 	}
-
+	
+	/**
+	 * Returns whether or not the tile is a room.
+	 * @return returns true if tile is room
+	 */
 	public boolean isRoom ()
 	{
 		return isRoom;
 	}
-
+	
+	/**
+	 * Returns whether the tile contains a ninja
+	 * @return returns true if this tile is a ninja
+	 */
 	public boolean isNinja ()
 	{
 		return isNinja;
 	}
-
+	
+	/**
+	 * Returns whether the tile is a player.
+	 * @return returns true if the tile is a player.
+	 */
 	public boolean isPlayer ()
 	{
 		return isPlayer;
 	}
-
+	
+	/**
+	 * Returns whether the tile contains a power up.
+	 * @return returns true if tile contains a power up
+	 */
 	public boolean isPowerUp ()
 	{
 		return isPowerUp;
 	}
-
+	/**
+	 * Returns whether of not the tile can be seen by the player.
+	 * @return reuturns true if the tile is not visible to player.
+	 */
 	public boolean isUnknownToPlayer ()
 	{
 		return isUnknownToPlayer;
 	}
-
+	
+	/**
+	 * Sets whether the tile will contain a ninja.
+	 * @param bool whether this tile has a ninja or not.
+	 */
 	public void setIsNinja (boolean bool)
 	{
 		this.isNinja = bool;
 	}
-
+	
+	/**
+	 * Sets whether the tile will contain a power up.
+	 * @param bool whether this tile has a power up or not.
+	 */
 	public void setIsPowerUp (boolean bool)
 	{
 		this.isPowerUp = bool;
 	}
-
+	
+	/**
+	 * Gets the power up on the tile
+	 * @return returnsthe power up on the tile
+	 */
 	public PowerUp getPowerUp ()
 	{
 		return this.powerUp;
 	}
-
+	
+	/**
+	 * Set the power up type on the tile.
+	 */
 	public void setPowerUp (PowerUp pwr)
 	{
 		this.powerUp = pwr;
 	}
-
+	
+	/**
+	 * Set the tile visibility for the player
+	 * @param bool whether the player can see the tile or not.
+	 */
 	public void setIsUnknownToPlayer (boolean bool)
 	{
 		//setting it false
@@ -256,12 +321,20 @@ public class Tile implements Serializable
 	{
 		return this.isPowerUp || this.isEmpty;
 	}
-
+	
+	/**@param position- a point object with an x and y postition
+	 * Sets position of tile, no return
+ 	*/
 	public void setPosition (Point position)
 	{
 		this.position = position;
 	}
 
+	/**
+	 * @param player player object
+	 * @return Returns the string representation of what the player can see on a tile, 
+	 * differentiating from room, briefcase, unknown, player or dead ninja. 
+	 */
 	public String toString (Player player)
 	{
 		// Game NOT in debug mode
