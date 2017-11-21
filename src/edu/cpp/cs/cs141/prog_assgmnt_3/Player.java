@@ -208,6 +208,7 @@ public class Player implements java.io.Serializable
 
 	/**
 	 * This block of code handles the powerups, keeping track of if the player has the powerup, and how much of a powerup.
+	 * Powerup has its own class that handles spawning and positioning.
 	 */
 	public void decrementInvincibility ()
 	{
@@ -279,9 +280,7 @@ public class Player implements java.io.Serializable
 		return false;
 	}
 	
-	/**
-	 * 
-	 */
+	
 
 	public void revealSquares (Grid gameGrid, int lineOfSight)
 	{
