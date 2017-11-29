@@ -21,6 +21,10 @@ import java.util.Vector;
  * Dan @Dan L. - Djluoma@cpp.edu
  */
 
+/**
+ * Player java class that handles all things related to the player, including lives, bullets, powerups, etc 
+ */
+
 public class Player implements java.io.Serializable
 {
 
@@ -111,6 +115,11 @@ public class Player implements java.io.Serializable
 	{
 		return hasRadar;
 	}
+	
+	/**
+	 * Shoot command works by having the player choose a direction, then continuously checking to see if there are any
+	 * objects (ninjas, rooms, the edge of the map) are in the way and reacts accordingly.
+	 */
 
 	public Point shoot (Grid gameGrid, TextUserInterface UI)
 	{
@@ -197,7 +206,10 @@ public class Player implements java.io.Serializable
 		return null;
 	}
 
-
+	/**
+	 * This block of code handles the powerups, keeping track of if the player has the powerup, and how much of a powerup.
+	 * Powerup has its own class that handles spawning and positioning.
+	 */
 	public void decrementInvincibility ()
 	{
 		if (invincibilityCount > 0)
@@ -221,7 +233,10 @@ public class Player implements java.io.Serializable
 			this.hasRadar = true;
 	}
 
-
+	/**
+	 * Checks to see if the player can move onto a particular tile.
+	 * Works by checkign to see if the tile is empty, has a powerup, dead (or soon to be dead) ninja.
+	 */
 	public boolean canMove (String direction, Grid grid)
 	{
 		switch (direction.toLowerCase())
@@ -264,6 +279,8 @@ public class Player implements java.io.Serializable
 
 		return false;
 	}
+	
+	
 
 	public void revealSquares (Grid gameGrid, int lineOfSight)
 	{

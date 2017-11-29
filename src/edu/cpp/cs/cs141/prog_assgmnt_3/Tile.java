@@ -21,6 +21,11 @@ import java.io.Serializable;
  * Dan @Dan L. - Djluoma@cpp.edu
  */
 
+/**
+ * This class handles the tiles that can hold a player, dead ninjas, living ninjas, powerups, etc.
+ * Essentially, the grid is a 2 dimensional array of tiles
+ * Each tile has a bunch of boolean parameters of what thing (if anything) resides on it.
+ */
 public class Tile implements Serializable
 {
 	private final String Player = "[ PLR ]";
