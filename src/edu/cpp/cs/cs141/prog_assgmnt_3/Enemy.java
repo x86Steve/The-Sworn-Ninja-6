@@ -20,6 +20,9 @@ import java.awt.*;
  * Dan @Dan L. - Djluoma@cpp.edu
  */
 
+/**
+ * Class that handles everything related to the enemy.
+ */
 public class Enemy implements java.io.Serializable
 {
 	private Point position;
@@ -34,6 +37,11 @@ public class Enemy implements java.io.Serializable
 
 		setNinjaPosition();
 	}
+	
+	/**
+	 * Method that checks up, down, left, right to see if the next tile over is the player.
+	 * If it is, then the player is killed.
+	 */
 
 	public boolean killedPlayer (Grid gameGrid)
 	{
@@ -55,6 +63,10 @@ public class Enemy implements java.io.Serializable
 		return false;
 	}
 
+	/**
+	 * Method that checks if the ninja can move in a specific direction.
+	 * Checks in up, down, left, right to see if the tile that the ninja wants to move is a room, another ninja, or a player.
+	 */
 	public boolean canMoveDirection (String direction, Grid gameGrid)
 	{
 		switch (direction.toLowerCase())
@@ -91,7 +103,12 @@ public class Enemy implements java.io.Serializable
 
 		return false;
 	}
-
+	
+	/**
+	 * Find the ninja a valid tile to move on, randomly chooses the direction.
+	 * If the ninja is surrounded by invalid tiles, then this method will check all the directions first and then make the ninja
+	 * not move during its turn.
+	 */
 	public String findValidMovement (Grid gameGrid)
 	{
 		int lazyStrikeSystem = 0;

@@ -34,7 +34,11 @@ public class PowerUp implements java.io.Serializable
 
 		setPowerUpPosition();
 	}
-
+	
+	/**
+	 * Uses random numbers to make powerups.
+	 * Amount of powerups can be changed by changing totalEnhancementTypes
+	 */
 	private void generateEnhancement ()
 	{
 		int num = GameEngine.generateRandNum(this.totalEnhancementTypes);
@@ -67,7 +71,10 @@ public class PowerUp implements java.io.Serializable
 			}
 		}
 	}
-
+	
+	/**
+	 * Randomly places powerups onto the grid.
+	 */
 	private void setPowerUpPosition ()
 	{
 		Point generated = new Point();
@@ -96,7 +103,11 @@ public class PowerUp implements java.io.Serializable
 	{
 		return position;
 	}
-
+	
+	/**
+	 * When the player walks onto a powerup, the game engine sends it over to this class
+	 * Then this method figures out which powerup it is, then applices the enhancement.
+	 */
 	public void usePowerUp (Player player, TextUserInterface UI)
 	{
 		switch (this.T)
