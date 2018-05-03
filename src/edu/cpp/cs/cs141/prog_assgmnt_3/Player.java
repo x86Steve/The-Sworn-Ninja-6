@@ -4,24 +4,6 @@ import java.awt.*;
 import java.util.Vector;
 
 /**
- * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodriguez
- * <p>
- * Programming Assignment #3 (Final)
- * <p>
- * Sworn Ninja 6
- * <p>
- * Team Red
- * <p>
- * Kevin @kscroggs  - kscrogginsjr@gmail.com
- * Albert @alberthwang  - albert.is.hwang@gmail.com
- * Steve @Steve | C0deFlex  - scoseguera@cpp.edu
- * Jimmy @jimmy  - jdojimmy@gmail.com
- * Min @minimineral  -  minoook@hotmail.com
- * Dan @Dan L. - Djluoma@cpp.edu
- */
-
-/**
  * Player java class that handles all things related to the player, including lives, bullets, powerups, etc 
  */
 
