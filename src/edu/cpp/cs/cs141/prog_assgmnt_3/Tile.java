@@ -4,24 +4,6 @@ import java.awt.*;
 import java.io.Serializable;
 
 /**
- * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodriguez
- * <p>
- * Programming Assignment #3 (Final)
- * <p>
- * Sworn Ninja 6
- * <p>
- * Team Red
- * <p>
- * Kevin @kscroggs  - kscrogginsjr@gmail.com
- * Albert @alberthwang  - albert.is.hwang@gmail.com
- * Steve @Steve | C0deFlex  - scoseguera@cpp.edu
- * Jimmy @jimmy  - jdojimmy@gmail.com
- * Min @minimineral  -  minoook@hotmail.com
- * Dan @Dan L. - Djluoma@cpp.edu
- */
-
-/**
  * This class handles the tiles that can hold a player, dead ninjas, living ninjas, powerups, etc.
  * Essentially, the grid is a 2 dimensional array of tiles
  * Each tile has a bunch of boolean parameters of what thing (if anything) resides on it.
