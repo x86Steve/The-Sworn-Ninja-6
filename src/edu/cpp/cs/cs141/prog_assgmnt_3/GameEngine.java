@@ -6,24 +6,6 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Vector;
 
-/**
- * CS 141: Intro to Programming and Problem Solving
- * Professor: Edwin Rodriguez
- * <p>
- * Programming Assignment #3 (Final)
- * <p>
- * Sworn Ninja 6
- * <p>
- * Team Red
- * <p>
- * Kevin @kscroggs  - kscrogginsjr@gmail.com
- * Albert @alberthwang  - albert.is.hwang@gmail.com
- * Steve @Steve | C0deFlex  - scoseguera@cpp.edu
- * Jimmy @jimmy  - jdojimmy@gmail.com
- * Min @minimineral  -  minoook@hotmail.com
- * Dan @Dan L. - Djluoma@cpp.edu
- */
-
 public class GameEngine implements java.io.Serializable
 {
 
