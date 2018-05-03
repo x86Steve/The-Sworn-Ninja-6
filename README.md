@@ -1,8 +1,4 @@
-# The-Sworn-Ninja-6
-
-
-Class Project
-This is a team project, and so only one submission per team will be necessary. You will develop a small, yet interesting, text-based games. The specifications for the game are as follows:
+The specifications for the game are as follows:
 
 The game takes place inside a building which will be represented as a grid of 81 squares, every square representing a possible position for different entities in the game (player's avatar, enemies, power-ups), with the exception of 9 special squares which represent rooms, and are equally distributed on the grid.
 
@@ -29,6 +25,4 @@ Radar: this power-up will automatically display on the screen the location of th
 All power-ups are initially randomly placed across the grid. The player has 3 'lives'. Every time the player is stabbed, the player is repositioned back at the initial position losing one life. If the player loses all lives, the game is over.
 
 Finally, the player can quit the game at any time and save his progress. Later on, he can restart the game and reload the previous save.
-
-Your task is to come up with a desgin for this game, given the specification above. You will use OO techniques for your design. You will be graded both on the functionality and the design of your program.
 
