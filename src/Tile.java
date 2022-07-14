@@ -1,4 +1,3 @@
-package testpack;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -10,7 +9,7 @@ import java.io.Serializable;
  */
 public class Tile implements Serializable
 {
-	private final String Player = "[ PLR ]";
+	private final String Player = "[ ME ]";
 	private final String Ninja = "[ >:D ]";
 	private final String Room = "[ RMM ]";
 	private final String Briefcase = "[ BRF ]";

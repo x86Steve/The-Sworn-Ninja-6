@@ -1,4 +1,3 @@
-package testpack;
 
 import java.awt.*;
 

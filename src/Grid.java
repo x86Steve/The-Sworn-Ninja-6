@@ -1,5 +1,3 @@
-package testpack;
-
 import java.awt.*;
 
 public class Grid implements java.io.Serializable

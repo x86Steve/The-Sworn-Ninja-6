@@ -1,5 +1,3 @@
-package testpack;
-
 import java.awt.*;
 /**
  * Class that handles everything related to the enemy.

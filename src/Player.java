@@ -1,5 +1,3 @@
-package testpack;
-
 import java.awt.*;
 import java.util.Vector;
 
